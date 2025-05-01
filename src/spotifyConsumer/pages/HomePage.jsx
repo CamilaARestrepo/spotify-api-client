@@ -4,7 +4,7 @@ import logo from "../../assets/Logo.png";
 import {delay, motion} from "framer-motion"
 import { slipeUp,slipeInFromSide} from "../../utility/animation";
 
-const Hero = () => {
+const HomePage = () => {
   return (
     <section className="mt-36">
       <div className="grid grid-cols-1 md:grid-cols-2">
@@ -57,4 +57,4 @@ const Hero = () => {
   );
 };
 
-export default Hero;
+export default HomePage;

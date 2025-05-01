@@ -1,4 +1,5 @@
 import fondo from "./assets/fondo.png"
+import { AppRouter } from "./routes/AppRouter"
 
 
 function App() {
@@ -14,8 +15,7 @@ function App() {
 
   return (
     <>
-    <div style={bgImagen} className="overflow-hidden min-h-screen">
-    </div>
+    <AppRouter/>
     </>
   )
 }
