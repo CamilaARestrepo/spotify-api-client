@@ -1,5 +1,6 @@
 import fondo from "./assets/fondo.png"
 import { AppRouter } from "./routes/AppRouter"
+import { UserPrivider } from "./auth/contexts/UserProvider"
 
 
 function App() {
@@ -15,7 +16,9 @@ function App() {
 
   return (
     <>
+    <UserPrivider>
     <AppRouter/>
+    </UserPrivider>
     </>
   )
 }
