@@ -1,85 +1,24 @@
 import React, { useState, useEffect } from "react";
 import Nadvar from "./Nadvar";
-
-const samplePlaylists = [
-  {
-    id: 1,
-    title: "Workout Boost",
-    description: "Energía para tu entrenamiento.",
-    cover: "https://picsum.photos/seed/workout/300/200",
-    followers: 1234,
-    updatedAt: "2023-12-01",
-    songs: [
-      { title: "Song 1", artist: "Artist A", album: "Album A", duration: "3:45" },
-      { title: "Song 2", artist: "Artist B", album: "Album B", duration: "4:10" },
-    ],
-  },
-  {
-    id: 2,
-    title: "Relax Vibes",
-    description: "Sonidos suaves para relajarte.",
-    cover: "https://picsum.photos/seed/relax/300/200",
-    followers: 2345,
-    updatedAt: "2024-01-10",
-    songs: [
-      { title: "Calm Sea", artist: "Oceanic", album: "Peace", duration: "5:02" },
-    ],
-  },
-  {
-    id: 3,
-    title: "Latin Heat",
-    description: "Los ritmos más calientes.",
-    cover: "https://picsum.photos/seed/latin/300/200",
-    followers: 3500,
-    updatedAt: "2025-02-05",
-    songs: [
-      { title: "Baila Baila", artist: "Reggaeton Star", album: "Fiesta", duration: "3:25" },
-    ],
-  },
-  {
-    id: 4,
-    title: "Chill Night",
-    description: "Perfecto para terminar el día.",
-    cover: "https://picsum.photos/seed/chill/300/200",
-    followers: 2800,
-    updatedAt: "2024-06-20",
-    songs: [
-      { title: "Moonlight", artist: "Luna", album: "Dreams", duration: "4:05" },
-    ],
-  },
-];
+import { useTheme } from "../../hooks/useTheme";
+import { useContext } from "react";
+import { PlaylistContext } from "../contexts/PlaylistContext";
+import { DataProfileContext } from "../contexts/DataPorfilContext";
 
 const HomePage = () => {
+  const {playlists} = useContext(PlaylistContext);
   const [search, setSearch] = useState("");
   const [selectedPlaylist, setSelectedPlaylist] = useState(null);
   const [scrollEnabled, setScrollEnabled] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    // Verificar si hay una preferencia guardada en localStorage
-    const savedTheme = localStorage.getItem("theme");
-    // Si hay un tema guardado, usarlo; de lo contrario, usar oscuro por defecto
-    return savedTheme ? savedTheme === "dark" : true;
-  });
+  const { isDarkMode } = useTheme(); 
+  const {dataProfile} = useContext(DataProfileContext);
 
-  // Sincronizar el estado del tema con localStorage y aplicar clases
   useEffect(() => {
     document.documentElement.classList.toggle("dark", isDarkMode);
     localStorage.setItem("theme", isDarkMode ? "dark" : "light");
   }, [isDarkMode]);
 
-  // Escuchar cambios en el localStorage (si el tema se cambia desde otro componente)
-  useEffect(() => {
-    const handleStorageChange = () => {
-      const currentTheme = localStorage.getItem("theme");
-      setIsDarkMode(currentTheme === "dark");
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
-
-  const filteredPlaylists = samplePlaylists.filter((playlist) =>
+  const filteredPlaylists = playlists.filter((playlist) =>
     playlist.title.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -91,9 +30,9 @@ const HomePage = () => {
         <div className="h-16"></div>
 
         <div className="flex">
-          {/* Sección izquierda 70% */}
+          {/* playlist */}
           <div className="w-[70%] p-6 flex flex-col space-y-6 overflow-auto">
-            {/* Buscador */}
+            {/* Seeker */}
             <input
               type="text"
               placeholder="Buscar playlist..."
@@ -105,10 +44,8 @@ const HomePage = () => {
                   : 'bg-white text-gray-800 placeholder-gray-500 border border-gray-300 focus:ring-blue-500'
               } focus:outline-none focus:ring-2 transition-colors duration-300`}
             />
-
-            {/* Subdivisión: propias y recomendadas */}
             <div className="flex gap-4 overflow-auto">
-              {/* Tus Playlists */}
+              {/* Own playlists */}
               <div className="w-1/2">
                 <h2 className={`text-xl font-semibold mb-2 ${isDarkMode ? 'text-red-500' : 'text-blue-600'}`}>
                   Tus Playlists
@@ -121,12 +58,14 @@ const HomePage = () => {
                         isDarkMode 
                           ? 'bg-gray-800 hover:bg-red-600' 
                           : 'bg-white hover:bg-blue-100 shadow-md'
-                      } p-4 rounded cursor-pointer transition-colors duration-300`}
+                      } p-4 rounded cursor-pointer transition-colors duration-300 flex flex-col h-64`}
                       onClick={() => setSelectedPlaylist(playlist)}
                     >
-                      <img src={playlist.cover} alt={playlist.title} className="w-full mb-2 rounded" />
+                      <div className="relative">
+                        <img src={playlist.cover} alt={playlist.title} className="w-full h-32 object-cover rounded mb-2" />
+                      </div>
                       <h3 className="text-lg font-bold">{playlist.title}</h3>
-                      <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                      <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} flex-grow`}>
                         {playlist.description}
                       </p>
                     </div>
@@ -134,7 +73,7 @@ const HomePage = () => {
                 </div>
               </div>
 
-              {/* Recomendadas */}
+              {/* Recommended Playlists */}
               <div className="w-1/2">
                 <h2 className={`text-xl font-semibold mb-2 ${isDarkMode ? 'text-red-500' : 'text-blue-600'}`}>
                   Recomendadas
@@ -147,12 +86,25 @@ const HomePage = () => {
                         isDarkMode 
                           ? 'bg-gray-800 hover:bg-red-600' 
                           : 'bg-white hover:bg-blue-100 shadow-md'
-                      } p-4 rounded cursor-pointer transition-colors duration-300`}
+                      } p-4 rounded cursor-pointer transition-colors duration-300 flex flex-col h-64`}
                       onClick={() => setSelectedPlaylist(playlist)}
                     >
-                      <img src={playlist.cover} alt={playlist.title} className="w-full mb-2 rounded" />
+                      <div className="relative">
+                        <img src={playlist.cover} alt={playlist.title} className="w-full h-32 object-cover rounded mb-2" />
+                        {dataProfile.spotifyConect ?(
+                        <button
+                          className={`absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center ${
+                            isDarkMode 
+                              ? 'bg-red-500 text-white hover:bg-red-600' 
+                              : 'bg-blue-500 text-white hover:bg-blue-600'
+                          } transition-colors duration-300 shadow-lg`}
+                        >
+                          <span className="text-xl font-bold">+</span>
+                        </button>
+                        ): null}
+                      </div>
                       <h3 className="text-lg font-bold">{playlist.title}</h3>
-                      <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                      <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} flex-grow`}>
                         {playlist.description}
                       </p>
                     </div>
@@ -162,7 +114,7 @@ const HomePage = () => {
             </div>
           </div>
 
-          {/* Sección derecha */}
+          {/* Details of the selected playlist */}
           <div className={`w-[30%] ${
             isDarkMode ? 'bg-gray-900' : 'bg-gray-200'
           } fixed right-0 top-16 bottom-0 space-y-4 transition-colors duration-300`}>

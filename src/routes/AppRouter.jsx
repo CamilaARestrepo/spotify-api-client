@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import Nadvar from "../spotifyConsumer/pages/Nadvar";
-import Login from "../auth/page/Login";
+import Login from "../auth/page/login";
 import HomePage from "../spotifyConsumer/pages/HomePage";
 import Porfil from "../spotifyConsumer/pages/Porfil";
 import { UserContext } from "../auth/contexts/UserContexts";
-import { useContext } from "react";
+import { PlaylistProvider } from "../spotifyConsumer/contexts/PlaylistProvider";
+import { DataProfileProvider } from "../spotifyConsumer/contexts/DataPorfilProvider";
 
 export const AppRouter = () => {
-  const { userState : { logged } } = useContext(UserContext);
+  const {
+    userState: { logged },
+  } = useContext(UserContext);
+
   if (!logged) {
     return (
       <Routes>
@@ -17,26 +21,28 @@ export const AppRouter = () => {
       </Routes>
     );
   }
+
   return (
-    <Routes>
-      <Route
-        path="/Home"
-        element={
-          <HomePage/>
-        }
-      />
-      <Route
-        path="/Perfil"
-        element={
-          <>
-            <Nadvar />
-            <div style={{ marginTop: "150px" }}>
-              <Porfil />
-            </div>
-          </>
-        }
-      />
-      <Route path="/*" element={<Login />} />
-    </Routes>
+    <DataProfileProvider>
+      <Routes>
+        <Route
+          path="/Home"
+          element={
+            <PlaylistProvider>
+              <HomePage />
+            </PlaylistProvider>
+          }
+        />
+        <Route path="/Perfil" element={<Porfil />} />
+        <Route
+          path="/*"
+          element={
+            <PlaylistProvider>
+              <HomePage />
+            </PlaylistProvider>
+          }
+        />
+      </Routes>
+    </DataProfileProvider>
   );
 };

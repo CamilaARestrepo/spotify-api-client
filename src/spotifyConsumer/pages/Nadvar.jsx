@@ -3,29 +3,19 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../auth/contexts/UserContexts";
 import Logo from "../../assets/Logo.png";
 import Logo2 from "../../assets/Logo2.png";
+import { useTheme } from "../../hooks/useTheme";
+import { DataProfileContext } from "../contexts/DataPorfilContext";
 
 const Nadvar = () => {
   const { logout } = useContext(UserContext);
   const navigate = useNavigate();
   const [isOpen, setIsopen] = useState(false);
-  const [spotifyConect, setSpotifyConect] = useState(true);
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    const savedTheme = localStorage.getItem("theme");
-    return savedTheme ? savedTheme === "dark" : true;
-  });
-
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", isDarkMode);
-    localStorage.setItem("theme", isDarkMode ? "dark" : "light");
-    window.dispatchEvent(new Event("storage"));
-  }, [isDarkMode]);
+  const { dataProfile } = useContext(DataProfileContext);
+  const [spotifyConect, setSpotifyConect] = useState(false);
+  const { isDarkMode, toggleTheme } = useTheme();
 
   const toggleMenu = () => {
     setIsopen(!isOpen);
-  };
-
-  const toggleTheme = () => {
-    setIsDarkMode((prev) => !prev);
   };
 
   const navBarLinks = [
@@ -45,6 +35,7 @@ const Nadvar = () => {
   };
 
   return (
+    <>
     <nav className={`fixed top-0 left-0 w-full z-50 ${
       isDarkMode 
         ? 'bg-slate-900 bg-opacity-60 backdrop-blur-md' 
@@ -54,18 +45,18 @@ const Nadvar = () => {
         {/* Logo y estado */}
         <div className="flex items-center space-x-2">
           <img
-            src={spotifyConect ? Logo : Logo2}
+            src={dataProfile.spotifyConect ? Logo : Logo2}
             alt="Logo"
             className="w-[30px]"
           />
           <span
             className={`text-sm font-bold ${
-              spotifyConect 
+              dataProfile.spotifyConect 
                 ? (isDarkMode ? "text-red-500" : "text-red-600") 
                 : (isDarkMode ? "text-orange-500" : "text-orange-600")
             }`}
           >
-            {spotifyConect ? "ONLINE" : "OFFLINE"}
+            {dataProfile.spotifyConect ? "ONLINE" : "OFFLINE"}
           </span>
         </div>
 
@@ -147,7 +138,7 @@ const Nadvar = () => {
         </div>
       </div>
 
-      {/* Menú móvil */}
+      {/* Mobile menu */}
       <div
         className={`md:hidden absolute w-full transition-all duration-300 ${
           isOpen ? "opacity-100 visible" : "opacity-0 invisible"
@@ -195,6 +186,7 @@ const Nadvar = () => {
         </ul>
       </div>
     </nav>
+    </>
   );
 };
 

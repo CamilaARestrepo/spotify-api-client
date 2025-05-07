@@ -1,58 +1,143 @@
-# 🚀 Landing Page
+# 🎵 Spotify Consumer
 
-## 📌 Project Description
-The **Landing Page** project is a landing page designed to display information in an attractive and efficient way. It is developed to be responsive and easy to use.
+## 📚 Subject
+**Electiva 1**
 
-## 🛠 Language and Technologies
-- **Language:** 🟨 JavaScript
-- **Technologies:** ⚛️ React, 🎨 Tailwind CSS
+## 👥 Team Members
+- Camila Acevedo Restrepo
+- James Hincapie Mejia
 
-## 📥 Steps to Download
-1. Clone the repository:
+---
+
+## 🚀 Project Description
+
+**Spotify Consumer** is a modern, responsive web application inspired by Spotify, designed to let users view and manage playlists, visualize profile statistics, and enjoy a beautiful, dark/light themed interface. Built with React and Tailwind CSS, it offers a seamless user experience, including authentication, profile editing, and playlist exploration.
+
+---
+
+## 🛠️ Technologies Used
+
+- ⚛️ **React** (v19)
+- 🎨 **Tailwind CSS**
+- 💅 **PostCSS**
+- ⚡ **Vite** (for blazing-fast development)
+- 🎬 **Framer Motion** (animations)
+- 🛡️ **ESLint** (code quality)
+- 🖼️ **Bootstrap Icons**
+
+---
+
+## 📋 Requirements
+
+- Node.js (v18 or higher recommended)
+- npm (v9 or higher)
+
+---
+
+## 🏗️ Project Structure
+
+```
+src/
+    ├── App.jsx
+    ├── main.jsx
+    ├── index.css
+    ├── assets/
+    │   ├── images/
+    │   └── icons/
+    ├── auth/
+    │   ├── Login.jsx
+    │   └── Register.jsx
+    ├── context/
+    │   ├── AuthContext.jsx
+    │   └── ThemeContext.jsx
+    ├── hooks/
+    │   ├── useAuth.js
+    │   └── useTheme.js
+    ├── mock/
+    │   ├── userMockData.json
+    │   └── playlistMockData.json
+    ├── routes/
+    │   ├── Home.jsx
+    │   ├── Profile.jsx
+    │   └── Playlist.jsx
+    ├── spotifyConsumer/
+    │   ├── components/
+    │   │   ├── Navbar.jsx
+    │   │   ├── Footer.jsx
+    │   │   └── PlaylistCard.jsx
+    │   ├── pages/
+    │   │   ├── Dashboard.jsx
+    │   │   └── Settings.jsx
+    └── utility/
+            ├── api.js
+            └── helpers.js
+public/
+    ├── favicon.ico
+    └── j.png
+```
+
+---
+
+## 💡 Features
+
+- 🔐 **Authentication:** Login and registration modals with social login buttons.
+- 👤 **Profile:** Editable user profile with statistics (favorite artists, genres, recent playback).
+- 🎵 **Playlists:** Browse, search, and view details of playlists.
+- 🌗 **Theme Switcher:** Toggle between dark and light modes.
+- 📱 **Responsive Design:** Fully optimized for desktop and mobile.
+- ⚡ **Fast Development:** Powered by Vite for instant reloads.
+
+---
+
+## 🖥️ Installation & Running
+
+1. **Clone the repository:**
    ```bash
    git clone https://github.com/JJAMES2323/landing-page.git
-   ```
-2. Navigate to the project directory:
-   ```bash
    cd landing-page
    ```
 
-## ▶️ Steps to Run
-1. Install dependencies:
+2. **Install dependencies:**
    ```bash
    npm install
    ```
-2. Start the development server:
+
+3. **Start the development server:**
    ```bash
-   npm start
+   npm run dev
+   ```
+   The app will be available at [http://localhost:5173](http://localhost:5173) (default Vite port).
+
+4. **Build for production:**
+   ```bash
+   npm run build
    ```
 
-## 🌐 Exposed Endpoints and Examples
-The project does not have exposed endpoints as it is a static page. If endpoints are added in the future, they can be documented here.
+5. **Preview the production build:**
+   ```bash
+   npm run preview
+   ```
 
-## 🏗 Architecture
-The project follows a typical React component architecture, where each part of the user interface is divided into reusable components.
+---
 
-## 📂 Project Structure
-```plaintext
-landing-page/
-├── public/
-│   ├── index.html
-│   └── ...
-├── src/
-│   ├── components/
-│   │   ├── Header.js
-│   │   ├── Footer.js
-│   │   └── ...
-│   ├── styles/
-│   │   ├── tailwind.css
-│   │   └── ...
-│   ├── App.js
-│   ├── index.js
-│   └── ...
-├── package.json
-└── README.md
-```
+## 📦 Mock Data
 
-🚀 Ready to deploy and enjoy! 🎉
+- User profile and playlists are loaded from local mock files for demonstration purposes.
+- No real Spotify API integration (can be extended in the future).
 
+---
+
+## 📑 License
+
+This project is licensed under the MIT License.  
+Feel free to use, modify, and share!
+
+---
+
+## 🤝 Acknowledgements
+
+Thanks to all open-source libraries and the Spotify design inspiration!
+
+---
+
+Enjoy exploring **Spotify Consumer**! 🎶✨
